@@ -17,6 +17,8 @@ struct Node {
  */
 void initNode(struct Node *head, int n) {
   //TODO: Initiliaze the node data to n and the next pointer to..?
+  head->data = n;
+  head -> next = nullptr;
 }
 
 /**
@@ -26,6 +28,29 @@ void initNode(struct Node *head, int n) {
  */
 void addNode(struct Node *head, int n) {
   //TODO - Implement this function.
+    Node *newNode = new Node;
+    newNode->data = n;
+    newNode->next = nullptr;
+
+
+    if (head == nullptr){
+        Node *newNode;
+        newNode->data = n;
+        newNode->next = head;
+
+        head->next = newNode;
+
+    }else {
+
+        Node *cur = head;
+
+        while (cur->next != nullptr) {
+            cur = cur->next;
+        }
+        cur->next = newNode;
+
+    }
+
 }
 
 /**
@@ -34,7 +59,11 @@ void addNode(struct Node *head, int n) {
  * @param n - data that the new node should hold
  */
 void insertFront(struct Node **head, int n) {
-  //TODO
+  //TODONode *newNode = new Node;
+    Node *newNode = new Node;
+    newNode->data = n;
+    newNode->next = *head;
+    *head = newNode;
 }
 
 /**
@@ -42,7 +71,11 @@ void insertFront(struct Node **head, int n) {
  * @param head  - pointer to the head of the list
  */
 void display(struct Node *head) {
-  //TODO
+  Node *cur = head;
+  while (cur != nullptr) {
+  cout << cur->data << endl;
+  cur = cur->next;
+  }
 }
 
 /**
@@ -53,7 +86,15 @@ void display(struct Node *head) {
  */
 struct Node *searchNode(struct Node *head, int n) {
   //TODO
-  return NULL;
+    Node *cur;
+    for(cur = head; cur != nullptr; cur = cur->next){
+        if(cur->data == n){
+            return cur;
+        }
+        return NULL;
+    }
+
+
 }
 
 /**
@@ -64,7 +105,23 @@ struct Node *searchNode(struct Node *head, int n) {
  */
 bool deleteNode(struct Node **head, Node *ptrDel) {
   //TODO
-  return false;
+    Node *cur, *prev;
+
+    for (cur = *head, prev = NULL; cur != NULL && cur->data != 5; prev = cur, cur = cur->next ); //traverse the linklist
+
+        if (*head == NULL){ //check to see if ptrDel.data is not found in link list
+            return false;
+        }
+        if (prev == NULL){ // check to see if ptrDel.data is in the first node
+            *head = cur->next;
+
+        }else{ // if ptrDel.data is in some other node
+            prev->next = cur->next;
+        }
+        free(cur);
+        return true;
+
+
 }
 
 /* reverse the list */
@@ -130,8 +187,9 @@ int main() {
   struct Node *newHead;
   struct Node *head = new Node;
 
-  /*
+
   initNode(head,10);
+
   display(head);
 
   addNode(head,20);
@@ -151,6 +209,7 @@ int main() {
 
   int numDel = 5;
   Node *ptrDelete = searchNode(head,numDel);
+
   if(deleteNode(&head,ptrDelete))
       cout << "Node "<< numDel << " deleted!\n";
   display(head);
@@ -189,6 +248,6 @@ int main() {
   cout << "Deleting the copied list\n";
   deleteLinkedList(&newHead);
   display(newHead);
-   */
+
   return 0;
 }
